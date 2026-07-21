@@ -1,8 +1,8 @@
-FROM php:8.3-cli
+FROM php:8.3-cli-bookworm
 
 WORKDIR /var/www/html
 
-RUN apt-get update && apt-get install -y \
+RUN apt-get update && apt-get upgrade -y && apt-get install -y \
     git \
     unzip \
     nodejs \
@@ -11,14 +11,23 @@ RUN apt-get update && apt-get install -y \
     libpng-dev \
     libjpeg-dev \
     libfreetype6-dev \
+    libonig-dev \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install pdo pdo_mysql zip gd
+    && docker-php-ext-install \
+        pdo \
+        pdo_mysql \
+        zip \
+        gd \
+        mbstring
 
 COPY . .
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-RUN composer install --no-dev --optimize-autoloader
+ENV COMPOSER_ALLOW_SUPERUSER=1
+ENV COMPOSER_MEMORY_LIMIT=-1
+
+RUN composer install --optimize-autoloader
 
 RUN npm install && npm run build
 
