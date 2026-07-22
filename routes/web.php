@@ -63,13 +63,12 @@ Route::get(
 
 
 Route::get('/registrar-recomendacion',
-[RegistroRecomendacionController::class,'create'])
-->name('registro.create');
-
+    [RecomendacionPublicaController::class, 'create'])
+    ->name('registro.create');
 
 Route::post('/registrar-recomendacion',
-[RegistroRecomendacionController::class,'store'])
-->name('registro.store');
+    [RecomendacionPublicaController::class, 'store'])
+    ->name('registro.store');
 
 require __DIR__.'/auth.php';
 
