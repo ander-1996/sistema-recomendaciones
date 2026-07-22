@@ -14,19 +14,20 @@ RUN apt-get update && apt-get install -y \
     libonig-dev \
     libwebp-dev \
     libicu-dev \
+    libpq-dev \
     && rm -rf /var/lib/apt/lists/* \
     && docker-php-ext-configure gd \
         --with-freetype \
         --with-jpeg \
         --with-webp \
-docker-php-ext-install \
-    gd \
-    pdo \
-    pdo_mysql \
-    pdo_pgsql \
-    zip \
-    mbstring \
-    intl
+    && docker-php-ext-install \
+        gd \
+        pdo \
+        pdo_mysql \
+        pdo_pgsql \
+        zip \
+        mbstring \
+        intl
 
 COPY . .
 
