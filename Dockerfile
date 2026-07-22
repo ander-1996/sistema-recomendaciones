@@ -19,13 +19,14 @@ RUN apt-get update && apt-get install -y \
         --with-freetype \
         --with-jpeg \
         --with-webp \
-    && docker-php-ext-install \
-        gd \
-        pdo \
-        pdo_mysql \
-        zip \
-        mbstring \
-        intl
+docker-php-ext-install \
+    gd \
+    pdo \
+    pdo_mysql \
+    pdo_pgsql \
+    zip \
+    mbstring \
+    intl
 
 COPY . .
 
@@ -40,4 +41,4 @@ RUN npm install && npm run build
 
 EXPOSE 8000
 
-CMD php artisan serve --host=0.0.0.0 --port=8000
+CMD php artisan migrate --force && php artisan db:seed --force && php artisan serve --host=0.0.0.0 --port=8000
