@@ -12,15 +12,20 @@ RUN apt-get update && apt-get install -y \
     libjpeg62-turbo-dev \
     libfreetype6-dev \
     libonig-dev \
+    libwebp-dev \
+    libicu-dev \
+    && rm -rf /var/lib/apt/lists/* \
     && docker-php-ext-configure gd \
         --with-freetype \
         --with-jpeg \
+        --with-webp \
     && docker-php-ext-install \
         gd \
         pdo \
         pdo_mysql \
         zip \
-        mbstring
+        mbstring \
+        intl
 
 COPY . .
 
